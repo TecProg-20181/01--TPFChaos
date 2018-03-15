@@ -14,7 +14,7 @@ typedef struct _image {
 } Image;
 
 
-Image escala_de_cinza(Image img) {
+Image gray_scale(Image img) {
     for (unsigned int image_height = 0; image_height < img.height; ++image_height) {
         for (unsigned int image_width = 0; image_width < img.width; ++image_width) {
             int media = img.pixel[image_height][image_width][0] +
@@ -56,49 +56,49 @@ void blur(unsigned int height, unsigned short int pixel[512][512][3], int T, uns
     }
 }
 
-Image rotacionar90direita(Image img) {
-    Image rotacionada;
+Image rotate90direita(Image img) {
+    Image rotated_image;
 
-    rotacionada.width = img.height;
-    rotacionada.height = img.width;
+    rotated_image.width = img.height;
+    rotated_image.height = img.width;
 
-    for (unsigned int i = 0, y = 0; i < rotacionada.height; ++i, ++y) {
-        for (int j = rotacionada.width - 1, x = 0; j >= 0; --j, ++x) {
-            rotacionada.pixel[i][j][0] = img.pixel[x][y][0];
-            rotacionada.pixel[i][j][1] = img.pixel[x][y][1];
-            rotacionada.pixel[i][j][2] = img.pixel[x][y][2];
+    for (unsigned int i = 0, y = 0; i < rotated_image.height; ++i, ++y) {
+        for (int j = rotated_image.width - 1, x = 0; j >= 0; --j, ++x) {
+            rotated_image.pixel[i][j][0] = img.pixel[x][y][0];
+            rotated_image.pixel[i][j][1] = img.pixel[x][y][1];
+            rotated_image.pixel[i][j][2] = img.pixel[x][y][2];
         }
     }
 
-    return rotacionada;
+    return rotated_image;
 }
 
-void inverter_cores(unsigned short int pixel[512][512][3],
-                    unsigned int w, unsigned int h) {
-    for (unsigned int i = 0; i < h; ++i) {
-        for (unsigned int j = 0; j < w; ++j) {
-            pixel[i][j][0] = 255 - pixel[i][j][0];
-            pixel[i][j][1] = 255 - pixel[i][j][1];
-            pixel[i][j][2] = 255 - pixel[i][j][2];
+void invert_colors(unsigned short int pixel[512][512][3],
+                    unsigned int width, unsigned int height) {
+    for (unsigned int image_height = 0; image_height < height; ++image_height) {
+        for (unsigned int image_width = 0; image_width < width; ++image_width) {
+            pixel[image_height][image_width][0] = 255 - pixel[image_height][image_width][0];
+            pixel[image_height][image_width][1] = 255 - pixel[image_height][image_width][1];
+            pixel[image_height][image_width][2] = 255 - pixel[image_height][image_width][2];
         }
     }
 }
 
-Image cortar_imagem(Image img, int x, int y, int w, int h) {
-    Image cortada;
+Image cut_image(Image img, int x, int y, int w, int h) {
+    Image cut;
 
-    cortada.width = w;
-    cortada.height = h;
+    cut.width = w;
+    cut.height = h;
 
     for(int i = 0; i < h; ++i) {
         for(int j = 0; j < w; ++j) {
-            cortada.pixel[i][j][0] = img.pixel[i + y][j + x][0];
-            cortada.pixel[i][j][1] = img.pixel[i + y][j + x][1];
-            cortada.pixel[i][j][2] = img.pixel[i + y][j + x][2];
+            cut.pixel[i][j][0] = img.pixel[i + y][j + x][0];
+            cut.pixel[i][j][1] = img.pixel[i + y][j + x][1];
+            cut.pixel[i][j][2] = img.pixel[i + y][j + x][2];
         }
     }
 
-    return cortada;
+    return cut;
 }
 
 
@@ -132,7 +132,7 @@ int main() {
 
         switch(opcao) {
             case 1: { // Escala de Cinza
-                img = escala_de_cinza(img);
+                img = gray_scale(img);
                 break;
             }
             case 2: { // Filtro Sepia
@@ -170,7 +170,7 @@ int main() {
                 scanf("%d", &quantas_vezes);
                 quantas_vezes %= 4;
                 for (int j = 0; j < quantas_vezes; ++j) {
-                    img = rotacionar90direita(img);
+                    img = rotate90direita(img);
                 }
                 break;
             }
@@ -207,7 +207,7 @@ int main() {
                 break;
             }
             case 6: { // Inversao de Cores
-                inverter_cores(img.pixel, img.width, img.height);
+                invert_colours(img.pixel, img.width, img.height);
                 break;
             }
             case 7: { // Cortar Imagem
@@ -216,7 +216,7 @@ int main() {
                 int w, h;
                 scanf("%d %d", &w, &h);
 
-                img = cortar_imagem(img, x, y, w, h);
+                img = cut_image(img, x, y, w, h);
                 break;
             }
         }
