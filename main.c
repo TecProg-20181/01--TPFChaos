@@ -13,14 +13,6 @@ typedef struct _image {
     unsigned int width, height;
 } Image;
 
-int igualar_pixel(Pixel pixel1, Pixel pixel2) {
-    if (pixel1.red == pixel2.red &&
-        pixel1.green == pixel2.green &&
-        pixel1.blue == pixel2.blue)
-        return 1;
-    return 0;
-}
-
 
 Image escala_de_cinza(Image img) {
     for (unsigned int image_height = 0; image_height < img.height; ++image_height) {
