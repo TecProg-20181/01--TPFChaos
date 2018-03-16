@@ -123,14 +123,14 @@ int main() {
         }
     }
 
-    int n_opcoes;
-    scanf("%d", &n_opcoes);
+    int n_options;
+    scanf("%d", &n_options);
 
-    for(int i = 0; i < n_opcoes; ++i) {
-        int opcao;
-        scanf("%d", &opcao);
+    for(int i = 0; i < n_options; ++i) {
+        int option;
+        scanf("%d", &option);
 
-        switch(opcao) {
+        switch(option) {
             case 1: { // Escala de Cinza
                 img = gray_scale(img);
                 break;
@@ -229,11 +229,11 @@ int main() {
     printf("%u %u\n255\n", img.width, img.height);
 
     // print pixels of image
-    for (unsigned int i = 0; i < img.height; ++i) {
-        for (unsigned int j = 0; j < img.width; ++j) {
-            printf("%hu %hu %hu ", img.pixel[i][j][0],
-                                   img.pixel[i][j][1],
-                                   img.pixel[i][j][2]);
+    for (unsigned int image_height = 0; image_height < img.height; ++image_height) {
+        for (unsigned int image_width = 0; image_width < img.width; ++image_width) {
+            printf("%hu %hu %hu ", img.pixel[image_height][image_width][0],
+                                   img.pixel[image_height][image_width][1],
+                                   img.pixel[image_height][image_width][2]);
 
         }
         printf("\n");
