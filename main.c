@@ -69,7 +69,9 @@ Image gray_scale(Image image) {
     return image;
 }
 
-Image blur(unsigned int height, unsigned short int pixel[512][512][3], int size, unsigned int width) {
+Image blur(unsigned int height, unsigned short int pixel[512][512][3], unsigned int width) {
+    int size = 0;
+    scanf("%d", &size);
     for (unsigned int counter_x = 0; counter_x < height; ++counter_x) {
         for (unsigned int counter_y = 0; counter_y < width; ++counter_y) {
             Pixel media = {0, 0, 0};
@@ -97,16 +99,21 @@ Image blur(unsigned int height, unsigned short int pixel[512][512][3], int size,
 
 Image rotate90right(Image image) {
     Image rotated_image;
+    int number_of_rotations = 0;
+    scanf("%d", &number_of_rotations);
+    number_of_rotations %= 4;
+    for (int j1 = 0; j1 < number_of_rotations; ++j1) {
 
-    rotated_image.width = image.height;
-    rotated_image.height = image.width;
+      rotated_image.width = image.height;
+      rotated_image.height = image.width;
 
-    for (unsigned int i = 0, y = 0; i < rotated_image.height; ++i, ++y) {
-        for (int j = rotated_image.width - 1, x = 0; j >= 0; --j, ++x) {
-            rotated_image.pixel[i][j][0] = image.pixel[x][y][0];
-            rotated_image.pixel[i][j][1] = image.pixel[x][y][1];
-            rotated_image.pixel[i][j][2] = image.pixel[x][y][2];
-        }
+      for (unsigned int i = 0, y = 0; i < rotated_image.height; ++i, ++y) {
+          for (int j = rotated_image.width - 1, x = 0; j >= 0; --j, ++x) {
+              rotated_image.pixel[i][j][0] = image.pixel[x][y][0];
+              rotated_image.pixel[i][j][1] = image.pixel[x][y][1];
+              rotated_image.pixel[i][j][2] = image.pixel[x][y][2];
+          }
+      }
     }
 
     return rotated_image;
@@ -123,8 +130,13 @@ void invert_colors(unsigned short int pixel[512][512][3],
     }
 }
 
-Image cut_image(Image image, int cut_y, int cut_x, int width, int height) {
+Image cut_image(Image image) {
     Image cut;
+    int cut_x, cut_y;
+    int width, height;
+
+    scanf("%d %d", &cut_y, &cut_x);
+    scanf("%d %d", &width, &height);
 
     cut.width = width;
     cut.height = height;
@@ -218,18 +230,11 @@ int main() {
                 break;
             }
             case 3: { // Blur
-                int tamanho = 0;
-                scanf("%d", &tamanho);
-                blur(img.height, img.pixel, tamanho, img.width);
+                blur(img.height, img.pixel, img.width);
                 break;
             }
             case 4: { // Rotacao
-                int quantas_vezes = 0;
-                scanf("%d", &quantas_vezes);
-                quantas_vezes %= 4;
-                for (int j = 0; j < quantas_vezes; ++j) {
-                    img = rotate90right(img);
-                }
+                img = rotate90right(img);
                 break;
             }
             case 5: { // Espelhamento
@@ -241,12 +246,7 @@ int main() {
                 break;
             }
             case 7: { // Cortar Imagem
-                int x, y;
-                scanf("%d %d", &x, &y);
-                int width, height;
-                scanf("%d %d", &width, &height);
-
-                img = cut_image(img, x, y, width, height);
+                img = cut_image(img);
                 break;
             }
         }
