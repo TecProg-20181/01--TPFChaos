@@ -146,6 +146,28 @@ Image mirror_image(Image image){
   return image;
 }
 
+Image sepia_filter(Image image){
+  for (unsigned int x = 0; x < image.height; ++x) {
+      for (unsigned int j = 0; j < image.width; ++j) {
+          unsigned short int pixel[3];
+          pixel[0] = image.pixel[x][j][0];
+          pixel[1] = image.pixel[x][j][1];
+          pixel[2] = image.pixel[x][j][2];
+
+          int p =  pixel[0] * .393 + pixel[1] * .769 + pixel[2] * .189;
+          int smallest_r = (255 >  p) ? p : 255;
+          image.pixel[x][j][0] = smallest_r;
+
+          p =  pixel[0] * .349 + pixel[1] * .686 + pixel[2] * .168;
+          smallest_r = (255 >  p) ? p : 255;
+          image.pixel[x][j][1] = smallest_r;
+
+          p =  pixel[0] * .272 + pixel[1] * .534 + pixel[2] * .131;
+          smallest_r = (255 >  p) ? p : 255;
+          image.pixel[x][j][2] = smallest_r;
+      }
+  }
+}
 
 int main() {
     Image img;
@@ -181,27 +203,7 @@ int main() {
                 break;
             }
             case 2: { // Filtro Sepia
-                for (unsigned int x = 0; x < img.height; ++x) {
-                    for (unsigned int j = 0; j < img.width; ++j) {
-                        unsigned short int pixel[3];
-                        pixel[0] = img.pixel[x][j][0];
-                        pixel[1] = img.pixel[x][j][1];
-                        pixel[2] = img.pixel[x][j][2];
-
-                        int p =  pixel[0] * .393 + pixel[1] * .769 + pixel[2] * .189;
-                        int menor_r = (255 >  p) ? p : 255;
-                        img.pixel[x][j][0] = menor_r;
-
-                        p =  pixel[0] * .349 + pixel[1] * .686 + pixel[2] * .168;
-                        menor_r = (255 >  p) ? p : 255;
-                        img.pixel[x][j][1] = menor_r;
-
-                        p =  pixel[0] * .272 + pixel[1] * .534 + pixel[2] * .131;
-                        menor_r = (255 >  p) ? p : 255;
-                        img.pixel[x][j][2] = menor_r;
-                    }
-                }
-
+              img = sepia_filter(img);
                 break;
             }
             case 3: { // Blur
@@ -216,7 +218,7 @@ int main() {
                 quantas_vezes %= 4;
                 for (int j = 0; j < quantas_vezes; ++j) {
                     img = rotate90right(img);
-                }
+                }g
                 break;
             }
             case 5: { // Espelhamento
