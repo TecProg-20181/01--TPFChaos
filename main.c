@@ -13,13 +13,6 @@ typedef struct _image {
     unsigned int width, height;
 } Image;
 
-// int pixel_copier(Pixel pixel, Pixel image) {
-//     if (pixerl.red == p2.red &&
-//         pixerl.green == p2.green &&
-//         pixerl.blue == p2.blue)
-//         return ;
-//     return 0;
-// }
 int max(int a, int b) {
     if (a > b)
         return a;
@@ -42,7 +35,7 @@ Image gray_scale(Image img) {
     return img;
 }
 
-void blur(unsigned int height, unsigned short int pixel[512][512][3], int size, unsigned int width) {
+Image blur(unsigned int height, unsigned short int pixel[512][512][3], int size, unsigned int width) {
     for (unsigned int counter_x = 0; counter_x < height; ++counter_x) {
         for (unsigned int counter_y = 0; counter_y < width; ++counter_y) {
             Pixel media = {0, 0, 0};
@@ -167,6 +160,7 @@ Image sepia_filter(Image image){
           image.pixel[x][j][2] = smallest_r;
       }
   }
+  return image;
 }
 
 int main() {
@@ -218,7 +212,7 @@ int main() {
                 quantas_vezes %= 4;
                 for (int j = 0; j < quantas_vezes; ++j) {
                     img = rotate90right(img);
-                }g
+                }
                 break;
             }
             case 5: { // Espelhamento
@@ -226,7 +220,7 @@ int main() {
                 break;
             }
             case 6: { // Inversao de Cores
-                invert_colours(img.pixel, img.width, img.height);
+                invert_colors(img.pixel, img.width, img.height);
                 break;
             }
             case 7: { // Cortar Imagem
@@ -241,21 +235,18 @@ int main() {
         }
 
     }
-
     // print type of image
     printf("P3\n");
     // print width height and color of image
     printf("%u %u\n255\n", img.width, img.height);
-
-    // print pixels of image
+      // print pixels of image
     for (unsigned int counter_x = 0; counter_x < img.height; ++counter_x) {
-        for (unsigned int counter_y = 0; counter_y < img.width; ++counter_y) {
-            printf("%hu %hu %hu ", img.pixel[counter_x][counter_y][0],
-                                   img.pixel[counter_x][counter_y][1],
-                                   img.pixel[counter_x][counter_y][2]);
-
-        }
-        printf("\n");
+      for (unsigned int counter_y = 0; counter_y < img.width; ++counter_y) {
+        printf("%hu %hu %hu ", img.pixel[counter_x][counter_y][0],
+                               img.pixel[counter_x][counter_y][1],
+                               img.pixel[counter_x][counter_y][2]);
+      }
+      printf("\n");
     }
     return 0;
 }
