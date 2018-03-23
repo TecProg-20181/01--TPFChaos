@@ -19,6 +19,22 @@ int max(int a, int b) {
     return b;
 }
 
+void print_data(Image image){
+  // print type of image
+  printf("P3\n");
+  // print width height and color of image
+  printf("%u %u\n255\n", image.width, image.height);
+    // print pixels of image
+  for (unsigned int counter_x = 0; counter_x < image.height; ++counter_x) {
+    for (unsigned int counter_y = 0; counter_y < image.width; ++counter_y) {
+      printf("%hu %hu %hu ", image.pixel[counter_x][counter_y][0],
+                             image.pixel[counter_x][counter_y][1],
+                             image.pixel[counter_x][counter_y][2]);
+    }
+    printf("\n");
+  }
+}
+
 Image gray_scale(Image img) {
     for (unsigned int counter_x = 0; counter_x < img.height; ++counter_x) {
         for (unsigned int counter_y = 0; counter_y < img.width; ++counter_y) {
@@ -235,18 +251,7 @@ int main() {
         }
 
     }
-    // print type of image
-    printf("P3\n");
-    // print width height and color of image
-    printf("%u %u\n255\n", img.width, img.height);
-      // print pixels of image
-    for (unsigned int counter_x = 0; counter_x < img.height; ++counter_x) {
-      for (unsigned int counter_y = 0; counter_y < img.width; ++counter_y) {
-        printf("%hu %hu %hu ", img.pixel[counter_x][counter_y][0],
-                               img.pixel[counter_x][counter_y][1],
-                               img.pixel[counter_x][counter_y][2]);
-      }
-      printf("\n");
-    }
+    print_data(img);
+
     return 0;
 }
